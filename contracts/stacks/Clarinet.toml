@@ -1,0 +1,12 @@
+[project]
+name = "streampay"
+description = "Continuous payment streaming service"
+authors = ["solidworkssa"]
+telemetry = false
+cache_dir = ".cache"
+
+[contracts.streampay]
+path = "contracts/streampay.clar"
+
+[repl.analysis]
+passes = ["check_checker"]
