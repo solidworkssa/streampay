@@ -2,8 +2,11 @@
 pragma solidity ^0.8.20;
 
 /// @title StreamPay Contract
+/// @author solidworkssa
 /// @notice Continuous payment streaming protocol.
 contract StreamPay {
+    string public constant VERSION = "1.0.0";
+
 
     struct Stream {
         address sender;
