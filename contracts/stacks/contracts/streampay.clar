@@ -31,9 +31,9 @@
 
 (define-public (create-stream (recipient principal) (rate uint) (amount uint))
     (let ((id (var-get stream-nonce)))
-        (try! (stx-transfer? amount tx-sender (as-contract tx-sender)))
+        (try! (stx-transfer? amount contract-caller (as-contract contract-caller)))
         (map-set streams id {
-            sender: tx-sender,
+            sender: contract-caller,
             recipient: recipient,
             deposit: amount,
             rate: rate,
@@ -47,9 +47,9 @@
 
 (define-public (withdraw (id uint))
     (let ((s (unwrap! (map-get? streams id) (err u404))))
-        (asserts! (is-eq tx-sender (get recipient s)) (err u401))
+        (asserts! (is-eq contract-caller (get recipient s)) (err u401))
         ;; Simplified calculation for clarity limitation
-        (try! (as-contract (stx-transfer? (get deposit s) tx-sender (get recipient s))))
+        (try! (as-contract (stx-transfer? (get deposit s) contract-caller (get recipient s))))
         (map-set streams id (merge s {withdrawn: (get deposit s)}))
         (ok true)
     )
